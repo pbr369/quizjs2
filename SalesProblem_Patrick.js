@@ -36,10 +36,27 @@ function bottomProduct(productProfitArray) {
 }
 
 function zeroProfitProduct(productProfitArray) {
-  const zero = 0;
-  return productProfitArray.map((o) => Object.values(o)[0]).reduce((a, b) => {
-      return Math.abs(b - zero) < Math.abs(a - zero) ? b : a;
-    });
+  if (productProfitArray.length === 0) {
+    return null;
+  }
+
+  let closestProduct = productProfitArray[0];
+
+  for (let i = 1; i < productProfitArray.length; i++) {
+    const currentProduct = productProfitArray[i];
+    const closestProfit = closestProduct.sales;
+
+    if (Math.abs(currentProduct.sales) < Math.abs(closestProfit)) {
+      closestProduct = currentProduct;
+    } else if (
+      Math.abs(currentProduct.sales) === Math.abs(closestProfit) &&
+      currentProduct.sales > closestProfit
+    ) {
+      closestProduct = currentProduct;
+    }
+  }
+
+  return closestProduct;
 }
 
 console.log(topProduct(productProfitArray));
